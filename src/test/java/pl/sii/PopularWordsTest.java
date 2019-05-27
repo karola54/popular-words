@@ -1,6 +1,7 @@
 package pl.sii;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ import static org.junit.Assert.assertFalse;
 public class PopularWordsTest {
     private static final PopularWords testee = new PopularWords();
 
+    @Ignore
     @Test
     public void shouldReturnOneThousandMostPopularWords() {
         //given
