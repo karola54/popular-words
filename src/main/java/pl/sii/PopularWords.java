@@ -26,7 +26,7 @@ public class PopularWords {
         }
     }
 
-    public Map<String, Long> findOneThousandMostPopularWords() {
+    private Map<String, Long> findOneThousandMostPopularWords() {
         Map<String, Long> result = findAllWords();
 
         result = result.entrySet().stream()
@@ -36,7 +36,7 @@ public class PopularWords {
         return result;
     }
 
-    public Map<String, Long> findAllWords() {
+    private Map<String, Long> findAllWords() {
         Map<String, Long> result = new HashMap<>();
 
         InputStream is = getClass().getResourceAsStream("/3esl.txt");
@@ -56,14 +56,14 @@ public class PopularWords {
             try {
                 reader.close();
             } catch (IOException e) {
-                // do nothing
+
             }
         }
 
         return result;
     }
 
-    public Comparator<Map.Entry<String, Long>> comparingByReverseValueAndKey() {
+    private Comparator<Map.Entry<String, Long>> comparingByReverseValueAndKey() {
         return (e1, e2) -> {
             int cmp = e2.getValue().compareTo(e1.getValue());
             if (cmp == 0) {
