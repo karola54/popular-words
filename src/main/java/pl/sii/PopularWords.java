@@ -26,7 +26,7 @@ public class PopularWords {
         }
     }
 
-    private Map<String, Long> findOneThousandMostPopularWords() {
+    public Map<String, Long> findOneThousandMostPopularWords() {
         Map<String, Long> result = findAllWords();
 
         result = result.entrySet().stream()
