@@ -1,10 +1,14 @@
 package pl.sii;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -35,7 +39,8 @@ public class PopularWordsTest {
 
         result.forEach((key, value) -> {
             BigDecimal valueUsagePercentage = calculatePercentage(value, totalFrequencyInAResult);
-            BigDecimal kilgarriffUsagePercentage = calculatePercentage(wordsFrequencyListCreatedByAdamKilgarriff.get(key), totalFrequencyByKilgarriff);
+            Long kilgarriffCount = wordsFrequencyListCreatedByAdamKilgarriff.get(key);
+            BigDecimal kilgarriffUsagePercentage = calculatePercentage(kilgarriffCount != null ? kilgarriffCount : 0, totalFrequencyByKilgarriff);
             BigDecimal diff = kilgarriffUsagePercentage.subtract(valueUsagePercentage);
             System.out.println(key + "," + valueUsagePercentage + "%," + kilgarriffUsagePercentage + "%," + (new BigDecimal(0.5).compareTo(diff.abs()) > 0) + " " + diff);
         });
@@ -46,6 +51,19 @@ public class PopularWordsTest {
     }
 
     private Map<String, Long> getWordsFrequencyListCreatedByAdamKilgarriff() {
-        throw new NotImplementedException("TODO implementation");
+        Map<String, Long> result = new HashMap<>(1000);
+
+        InputStream is = getClass().getResourceAsStream("/all.num");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+            String line;
+            for (int i = 0; i < 1000 && (line = reader.readLine()) != null; i++) {
+                String[] data = line.split(" ");
+                result.put(data[1], Long.valueOf(data[0]));
+            }
+        } catch (IOException ex) {
+            System.err.println("Exception during reading file: " + ex.getMessage());
+        }
+
+        return result;
     }
 }
